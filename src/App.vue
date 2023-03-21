@@ -1,10 +1,10 @@
 <script setup>
-import Home from './components/Home.vue'
+import index from './views/index.vue'
 </script>
 
 <template>
 <div>
-  <Home />
+  <index />
 </div>
 </template>
 

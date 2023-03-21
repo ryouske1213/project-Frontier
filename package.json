@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element-plus": "^2.3.1",
+    "pug": "^3.0.2",
     "vue": "^3.2.47"
   },
   "devDependencies": {
@@ -16,6 +18,8 @@
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
+    "unplugin-auto-import": "^0.15.1",
+    "unplugin-vue-components": "^0.24.1",
     "vite": "^4.2.0"
   }
 }
