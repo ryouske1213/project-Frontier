@@ -1,8 +1,8 @@
 <script setup>
-import Main from ''
+import Header from '../components/p-header.vue'
 </script>
 
 <template lang="pug">
-div
-  
+div()
+  Header
 </template>
