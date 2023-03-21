@@ -12,7 +12,7 @@ const disabled = ref(false)
 
 <template lang="pug">
 div
-  div(class="w-full h-screen bg-slate-500")
+  div(class="")
     div(class="w-full")
       div(class="w-full flex justify-between items-center py-5 pl-10 bg-slate-200")
         div(class="flex")

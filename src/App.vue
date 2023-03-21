@@ -2,10 +2,9 @@
 import index from './views/index.vue'
 </script>
 
-<template>
-<div>
-  <index />
-</div>
+<template lang="pug">
+div
+  index
 </template>
 
 
