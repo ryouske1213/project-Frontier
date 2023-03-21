@@ -1,12 +1,22 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+const props = defineProps(['Database'])
+const returnResult = props?.Database?.data?.info?.results
 
+const Result = ref(Number(returnResult))
 
 const currentPage2 = ref(5)
 const pageSize2 = ref()
 const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
+
+const handleSizeChange = (number) => {
+  console.log(number)
+}
+const handleCurrentChange = (number) => {
+  console.log(number)
+}
 
 </script>
 
@@ -21,15 +31,17 @@ div
         div(class="flex")
           div(class="demo-pagination-block flex mr-10")
             el-pagination(
-                v-model:current-page="currentPage2"
-                v-model:page-size="pageSize2"
-                :page-sizes="[10, 30, 50]"
-                :small="small"
-                :disabled="disabled"
-                :background="background"
-                layout="sizes, prev, pager, next"
-                :total="3010"
+              v-model:current-page="currentPage2"
+              v-model:page-size="pageSize2"
+              :small="small"
+              :disabled="disabled"
+              :background="background"
+              layout="sizes, prev, pager, next"
+              :total="30"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
             )
+            
             button(class="w-8 ml-6 bg-red-400")
             button(class="w-8 ml-6 bg-slate-600")
 
