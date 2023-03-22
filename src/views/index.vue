@@ -7,13 +7,13 @@ import axios from 'axios'
 const data = ref()
 
 const Database = onMounted(async() => {
-    await axios.get('https://randomuser.me/api/?results=15').then((res) => data.value = res) 
+    await axios.get('https://randomuser.me/api/?results=50').then((res) => data.value = res) 
     return data.value
 })
 </script>
 
 <template lang="pug">
 div(class="w-full h-screen bg-slate-500")
-  Header(:Database="data")
+  Header
   Main(:Database="data?.data.results")
 </template>

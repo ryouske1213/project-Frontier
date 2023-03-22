@@ -1,22 +1,48 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-const props = defineProps(['Database'])
-const returnResult = props?.Database?.data?.info?.results
+import { onMounted, ref, toRaw, computed, reactive} from 'vue'
+import axios from 'axios'
 
-const Result = ref(Number(returnResult))
+const data = ref()
 
-const currentPage2 = ref(5)
+
+onMounted(async() => {
+  await axios.get('https://randomuser.me/api/?results=50').then((res) => data.value = res) 
+  return data.value
+})
+
+const showDatas = ref()
+const Datas = ref()
+const currentPage2 = ref(1)
 const pageSize2 = ref()
 const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
 
-const handleSizeChange = (number) => {
-  console.log(number)
+const returnDatas = computed(() => {
+  return toRaw(data.value?.data?.results)
+})
+
+const pageTotal = computed(() => {
+  return toRaw(data?.value?.data?.info.results)
+})
+
+const page = computed(() => {
+  return toRaw(data?.value?.data?.info.page)
+})
+
+const handleSizeChange = (currentIndex) => {
+  showDatas.value = data.value?.data?.results.slice(0, currentIndex)
+  // Datas.value = JSON.parse(JSON.stringify(showDatas.value))
+  // console.log(showDatas.value = data.value?.data?.results.slice(0, currentIndex))
+  console.log(showDatas.value)
+  // const showDatas = JSON.parse(JSON.stringify(aaa))
 }
-const handleCurrentChange = (number) => {
-  console.log(number)
+
+const handleCurrentChange = (currentIndex) => {
+  // console.log(returnDatas.slice(0, currentIndex))
+
 }
+
 
 </script>
 
@@ -33,17 +59,22 @@ div
             el-pagination(
               v-model:current-page="currentPage2"
               v-model:page-size="pageSize2"
+              :page-sizes="[10, 30, 50]"
               :small="small"
               :disabled="disabled"
               :background="background"
               layout="sizes, prev, pager, next"
-              :total="30"
+              :total="pageTotal"
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
             )
+
             
             button(class="w-8 ml-6 bg-red-400")
             button(class="w-8 ml-6 bg-slate-600")
+
+  div(v-for="link in showDatas")
+    p {{ link.location.city }}
 
 </template>
 
