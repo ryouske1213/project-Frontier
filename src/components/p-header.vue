@@ -1,4 +1,5 @@
 <script setup>
+import Main from '../components/p-main.vue'
 import { onMounted, ref, toRaw, computed, reactive} from 'vue'
 import axios from 'axios'
 
@@ -36,12 +37,11 @@ const page = computed(() => {
 })
 
 const handleSizeChange = (currentIndex) => {
-  showDatas.value = returnDatas.value.slice(0, currentIndex)
+  Datas.value = returnDatas.value.slice(0, currentIndex)
 }
 
 const handleCurrentChange = (currentIndex) => {
   Datas.value = returnDatas.value.slice((currentIndex - 1) * pageSize2.value, currentIndex * pageSize2.value)
-  console.log(Datas.value)
 }
 
 
@@ -73,9 +73,7 @@ div
             
             button(class="w-8 ml-6 bg-red-400")
             button(class="w-8 ml-6 bg-slate-600")
-
-  div(v-for="link in Datas")
-    p {{ link.location.city }}
+  Main(:Datas="Datas")
 
 </template>
 
