@@ -10,17 +10,22 @@ onMounted(async() => {
   return data.value
 })
 
+
 const showDatas = ref()
+const exportData = ref()
 const Datas = ref()
+const pageSize = ref([10, 30, 50])
 const currentPage2 = ref(1)
-const pageSize2 = ref()
+const pageSize2 = ref(30)
 const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
 
 const returnDatas = computed(() => {
-  return toRaw(data.value?.data?.results)
+  exportData.value = toRaw(data.value?.data?.results)
+  return exportData.value
 })
+
 
 const pageTotal = computed(() => {
   return toRaw(data?.value?.data?.info.results)
@@ -31,16 +36,12 @@ const page = computed(() => {
 })
 
 const handleSizeChange = (currentIndex) => {
-  showDatas.value = data.value?.data?.results.slice(0, currentIndex)
-  // Datas.value = JSON.parse(JSON.stringify(showDatas.value))
-  // console.log(showDatas.value = data.value?.data?.results.slice(0, currentIndex))
-  console.log(showDatas.value)
-  // const showDatas = JSON.parse(JSON.stringify(aaa))
+  showDatas.value = returnDatas.value.slice(0, currentIndex)
 }
 
 const handleCurrentChange = (currentIndex) => {
-  // console.log(returnDatas.slice(0, currentIndex))
-
+  Datas.value = returnDatas.value.slice((currentIndex - 1) * pageSize2.value, currentIndex * pageSize2.value)
+  console.log(Datas.value)
 }
 
 
@@ -59,7 +60,7 @@ div
             el-pagination(
               v-model:current-page="currentPage2"
               v-model:page-size="pageSize2"
-              :page-sizes="[10, 30, 50]"
+              :page-sizes="pageSize"
               :small="small"
               :disabled="disabled"
               :background="background"
@@ -73,7 +74,7 @@ div
             button(class="w-8 ml-6 bg-red-400")
             button(class="w-8 ml-6 bg-slate-600")
 
-  div(v-for="link in showDatas")
+  div(v-for="link in Datas")
     p {{ link.location.city }}
 
 </template>
