@@ -1,10 +1,11 @@
 <script setup>
 import Main from '../components/p-main.vue'
+import { useRouter } from 'vue-router'
 import { onMounted, ref, toRaw, computed, reactive} from 'vue'
 import axios from 'axios'
 
 const data = ref()
-
+const router = useRouter();
 
 onMounted(async() => {
   await axios.get('https://randomuser.me/api/?results=50').then((res) => data.value = res) 
@@ -53,8 +54,8 @@ div
     div(class="w-full")
       div(class="w-full flex justify-between items-center py-5 pl-10 bg-slate-200")
         div(class="flex")
-          p(class="px-2") ALL 
-          p(class="px-2") Favorite
+          p(class="px-2" @click="router.push('/')") ALL 
+          p(class="px-2" @click="router.push('/collect')") Favorite
         div(class="flex")
           div(class="demo-pagination-block flex mr-10")
             el-pagination(
@@ -69,11 +70,7 @@ div
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
             )
-
-            
-            button(class="w-8 ml-6 bg-red-400")
-            button(class="w-8 ml-6 bg-slate-600")
-  Main(:Datas="Datas")
+  Main(:Datas="Datas" class="bg-auto-width bg-slate-300 w-full max-h-auto")
 
 </template>
 
