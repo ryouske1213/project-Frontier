@@ -1,7 +1,9 @@
 <script setup>
 import Model from '../components/p-model.vue'
-import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref, computed, toRaw } from 'vue'
 
+const router = useRouter();
 const props = defineProps(['Datas'])
 const onModel = ref(false)
 const replaceColor = ref(false)
@@ -14,6 +16,7 @@ const returnProps = computed(() => {
 
 const materialModel = (link) => {
   returnModel.value = link
+  // console.log(link)
 }
 
 const onOpenModel = () => {
@@ -25,8 +28,13 @@ const onReplaceColor = () => {
   replaceColor.value = !replaceColor.value
 }
 
-function changeCollect(){
+function changeCollect(link){
   collectIcon.value = !collectIcon.value
+  returnModel.value = link
+  
+  window.localStorage.setItem('collectData', JSON.stringify(link)) ?? []
+  router.push('/collect')
+  // console.log(pushLocalData)
 }
 
 
@@ -51,9 +59,9 @@ div
             p(class="text-black text-2xl font-bold mt-2 text-center") 信箱
             p(class="w-full text-black font-bold px-2 text-center") {{ link.email }}
             p(class="w-full text-black font-bold text-2xl mt-2 text-center") 城市: {{ link.location.city }}
-            div(class="w-full flex justify-end pr-2" @click="changeCollect()")
-              img(class="absolute w-7" src='../assets/collect-icon.png')
-              img(class="absolute w-7" src='../assets/collect-black-icon.png')
+            div(class="w-full flex justify-end pr-2")
+              img(class="absolute w-7" src='../assets/collect-icon.png' @click="changeCollect(link)")
+              img(class="absolute w-7" src='../assets/collect-black-icon.png' @click="changeCollect(link)")
               //- div(class="w-full flex justify-end pr-2" @click="changeCollect()" v-if="collectIcon = false")
 
     Model(:returnModel="returnModel" v-if="onModel" @onOpenModel="onOpenModel")

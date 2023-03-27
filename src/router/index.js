@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Index from '../views/index.vue'
-import collect from '../views/collect.vue'
+import collect from '../views/collect/collect.vue'
 
 export const router = createRouter({
   history: createWebHashHistory(),
