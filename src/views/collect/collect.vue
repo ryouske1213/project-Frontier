@@ -6,10 +6,12 @@ import { ref, computed, onMounted, reactive } from "vue";
 const returnLocal = reactive([])
 
 const ObtainData = JSON.parse(window.localStorage.getItem("collectData"))
+console.log(ObtainData)
 
 onMounted(() => {
+  ObtainData
   // window.localStorage.setItem('collectData', JSON.stringify(ObtainData))
-  console.log(returnLocal = ObtainData)
+  // console.log(returnLocal = ObtainData)
 })
 
 </script>

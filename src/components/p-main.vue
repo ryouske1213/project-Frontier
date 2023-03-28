@@ -1,7 +1,7 @@
 <script setup>
 import Model from '../components/p-model.vue'
 import { useRouter } from 'vue-router'
-import { ref, computed, toRaw } from 'vue'
+import { ref, computed, toRaw, reactive, onMounted } from 'vue'
 
 const router = useRouter();
 const props = defineProps(['Datas'])
@@ -9,6 +9,8 @@ const onModel = ref(false)
 const replaceColor = ref(false)
 const collectIcon = ref(true)
 const returnModel = ref()
+const count = ref(1)
+const id = ref(1)
 
 const returnProps = computed(() => {
   return props.Datas
@@ -16,24 +18,26 @@ const returnProps = computed(() => {
 
 const materialModel = (link) => {
   returnModel.value = link
-  // console.log(link)
-}
-
-const onOpenModel = () => {
-  onModel.value = !onModel.value
-  console.log(onModel.value = !onModel.value)
+  onModel.value = true
+  
 }
 
 const onReplaceColor = () => {
   replaceColor.value = !replaceColor.value
 }
 
+
 function changeCollect(link){
-  collectIcon.value = !collectIcon.value
   returnModel.value = link
-  
-  window.localStorage.setItem('collectData', JSON.stringify(link)) ?? []
+  const cart = []
+  cart.push({
+    id: id.value,
+    count: count.value,
+    data: toRaw(returnModel.value)
+  })
+  window.localStorage.setItem('collectData', JSON.stringify(cart)) ?? []
   router.push('/collect')
+  // console.log(cart)
   // console.log(pushLocalData)
 }
 
@@ -44,11 +48,12 @@ function changeCollect(link){
 
 <template lang="pug">
 div
+  Model(:returnModel="returnModel" class=" relative z-10")
   div(class="w-full flex justify-end")
     div(:class="replaceColor ? 'w-10 h-10 mx-2 cursor-pointer bg-red-400' : 'w-10 h-10 mx-2 cursor-pointer bg-slate-600'" @click="onReplaceColor")
     div(:class="replaceColor ? 'w-10 h-10 mx-2 cursor-pointer bg-slate-600' : 'w-10 h-10 mx-2 cursor-pointer bg-red-400'" @click="onReplaceColor")
   div(:class="replaceColor ? 'w-full h-full mt-10 grid grid-cols-5 gap-3 justify-items-center' : 'w-full h-full mt-10 grid grid-cols-1 justify-items-center'")
-    div(v-for="link, index in returnProps")
+    div(v-for="link in returnProps")
       div(class="w-full h-full relative" @click="materialModel(link)")
         div(:class="replaceColor ? 'bg-Card w-full h-full col-span-2 overflow-hidden rounded-lg bg-cover bg-no-repeat opacity-50' : 'w-[1200px]'")
         div(:class="replaceColor ? 'absolute top-0 w-full flex justify-center items-center' : 'w-full bg-gray-500 rounded-lg'")
@@ -63,8 +68,8 @@ div
               img(class="absolute w-7" src='../assets/collect-icon.png' @click="changeCollect(link)")
               img(class="absolute w-7" src='../assets/collect-black-icon.png' @click="changeCollect(link)")
               //- div(class="w-full flex justify-end pr-2" @click="changeCollect()" v-if="collectIcon = false")
+  //- Model(:returnModel="returnModel" v-if="onModel")
 
-    Model(:returnModel="returnModel" v-if="onModel" @onOpenModel="onOpenModel")
 </template>
 
 <style scoped>
