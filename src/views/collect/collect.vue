@@ -3,13 +3,21 @@ import HeaderCollect from "../../components/p-headerCollect.vue";
 import { useRoute } from "vue-router";
 import { ref, computed, onMounted, reactive } from "vue";
 
-const returnLocal = reactive([])
+// const returnLocal = ref([])
 
-const ObtainData = JSON.parse(window.localStorage.getItem("collectData"))
+const ObtainData = JSON.parse(window.localStorage.getItem("collectData")) ?? []
+// console.log(carts)
 
 onMounted(() => {
+  ObtainData
   // window.localStorage.setItem('collectData', JSON.stringify(ObtainData))
-  console.log(returnLocal = ObtainData)
+  // console.log(returnLocal = ObtainData)
+})
+
+const returnLocal = computed(() => {
+  return ObtainData.map((e) => {
+    return console.log(Object.assign({}, e))
+  })
 })
 
 </script>
@@ -19,7 +27,7 @@ div
   HeaderCollect
 
   div(class="w-full h-full flex my-5 mx-5")
-    div(class=" bg-zinc-500 rounded-lg")
+    div(class=" bg-zinc-500 rounded-lg" )
       img(class="absolute w-10 h-10 -right-10 -top-10 bg-slate-300 rounded-xl cursor-pointer" src="../assets/X.png")
       div(class="w-full flex justify-center mt-10")
         img(:src="ObtainData.picture.large")
@@ -30,4 +38,5 @@ div
           p(class="mt-4") 國家: {{ ObtainData.location.country }}
           p(class="mt-4") 城市: {{ ObtainData.location.city }}
           p(class="mt-4") 信箱: {{ ObtainData.email }}
+  div {{ returnLocal }}
 </template>
