@@ -39,10 +39,12 @@ const page = computed(() => {
 
 const handleSizeChange = (currentIndex) => {
   Datas.value = returnDatas.value.slice(0, currentIndex)
+  // window.localStorage.setItem('localsData', Datas.value)
 }
 
 const handleCurrentChange = (currentIndex) => {
   Datas.value = returnDatas.value.slice((currentIndex - 1) * pageSize2.value, currentIndex * pageSize2.value)
+  // window.localStorage.setItem('localsData', Datas.value)
 }
 
 
