@@ -1,58 +1,82 @@
 <script setup>
-import Model from '../components/p-model.vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { ref, computed, toRaw, reactive, onMounted, toRef } from 'vue'
+import Model from "../components/p-model.vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { ref, computed, toRaw, reactive, onMounted, toRef } from "vue";
 
 const router = useRouter();
-const props = defineProps(['Datas'])
-const onModel = ref(false)
-const replaceColor = ref(false)
-const collectIcon = ref(true)
-const returnModel = ref()
-const count = ref(1)
-const id = ref(1)
-const data = ref()
+const props = defineProps(["Datas"]);
+const onModel = ref(false);
+const replaceColor = ref(false);
+const collectIcon = ref(true);
+const returnModel = ref();
+const count = ref(0);
+const id = ref(1);
+const data = ref();
+// const cart = ref()
 
-onMounted(async() => {
-  await axios.get('https://randomuser.me/api/?results=50').then((res) => data.value = res) 
-  return data.value
-})
-
+onMounted(async () => {
+  await axios
+    .get("https://randomuser.me/api/?results=50")
+    .then((res) => (data.value = res));
+  return data.value;
+});
 
 const mergeID = computed(() => {
-  const _pairingData = toRaw(data.value?.data.results) ?? []
-  const _mergeData = toRaw(props.Datas) ?? _pairingData
-  return _mergeData
-})
+  const _pairingData = toRaw(data.value?.data.results) ?? [];
+  const _mergeData = toRaw(props.Datas) ?? _pairingData;
+  return _mergeData;
+});
 
 const materialModel = (link) => {
-  returnModel.value = link
-  onModel.value = !onModel.value
-}
+  returnModel.value = link;
+  onModel.value = !onModel.value;
+};
 
 const onReplaceColor = () => {
-  replaceColor.value = !replaceColor.value
-}
+  replaceColor.value = !replaceColor.value;
+};
 
-function changeCollect(link){
-  const carts = window.localStorage.setItem("collectData", JSON.stringify(link)) ?? []
-  carts.push({
-    id: id.value,
-    count: count.value
-  })
-  console.log(carts)
+function changeCollect(link) {
+  // const carts = [link];
+  // const cart = [];
+  // const myArray = [];
+
+  // // carts.forEach((item) => {
+  // //   console.log(item)
+  // // })
+
+  // cart.push({
+  //   id: id.value,
+  //   count: count.value,
+  //   data: carts,
+  // });
+
+  // for(let i = 0; i < cart.length; i++) {
+  //   myArray.push([i].length++)
+  // }
+
+  // const localCarts = localStorage.setItem("carts", JSON.stringify(cart)) ?? cart;
+  // console.log(myArray);
+
+  let myArray = [1, 2, 3];
+
+  myArray.forEach(function (item, index, array) {
+    array[index] = item + index;
+  });
+
+  console.log(myArray); // [2, 3, 4]
+  // console.log(toRaw(mergeID))
+
+  // localStorage.getItem("cart") ?? []
   // returnModel.value = link
-  // window.localStorage.setItem("collectData", JSON.stringify(carts))
-  router.push('./collect')
+  // router.push('./collect')
   // console.log(pushLocalData)
 }
 
-function onButtonModel(){
-  onModel.value = false
+function onButtonModel() {
+  onModel.value = false;
 }
-
-
 </script>
 
 <template lang="pug">
@@ -85,7 +109,7 @@ div
 .bg-Card {
   width: 300px;
   height: 350px;
-  background-image: url('../assets/Card.png');
+  background-image: url("../assets/Card.png");
 }
 /* .showCollect {
   background-image: url('../assets/collect-icon.png');
